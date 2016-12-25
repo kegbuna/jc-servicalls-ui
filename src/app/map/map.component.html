@@ -1,3 +1,15 @@
-<p>
-  map works!
-</p>
+<div [attr.id]="leafletMapId" class="map-container">
+</div>
+<sebm-google-map [latitude]="defaultLatitude" [longitude]="defaultLongitude" [zoom]="this.defaultZoom">
+    <sebm-google-map-marker [latitude]="defaultLatitude" [longitude]="defaultLongitude"></sebm-google-map-marker>
+    <sebm-google-map-marker *ngFor="let call of calls"
+                            [label]="call['Call Type']"
+                            [latitude]="call.LATITUDE"
+                            [longitude]="call.LONGITUDE">
+        <sebm-google-map-info-window>
+            <div>
+                <h5>{{call['Call Code Description']}}</h5>
+            </div>
+        </sebm-google-map-info-window>
+    </sebm-google-map-marker>
+</sebm-google-map>

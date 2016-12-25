@@ -1,0 +1,6 @@
+.map-container {
+  display: none;
+}
+.map-container, .sebm-google-map-container {
+  height: calc(100% - 64px);
+}

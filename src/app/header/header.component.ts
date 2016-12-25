@@ -6,7 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  private navItems: Array<any> = [
+    {
+      label: 'Home',
+      route: 'home'
+    },
+    {
+      label: 'Map',
+      route: 'map'
+    }
+  ];
   constructor() { }
 
   ngOnInit() {

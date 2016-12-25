@@ -1,9 +1,11 @@
 <md-toolbar>
-  <button md-button (click)="sidenav.open()">
-    Open sidenav
-  </button>
-  Jersey City Service Call Data
+  <span class="toolbar-text">Jersey City Service Call Data</span>
+  <nav class="nav-items">
+    <a md-button *ngFor="let item of navItems" [routerLink]="item.route" routerLinkActive="active">
+      <span>{{item.label}}</span>
+    </a>
+  </nav>
 </md-toolbar>
-<md-sidenav #sidenav class="example-sidenav">
-  Jolly good!
+<md-sidenav #sidenav>
+  Nothing to see here
 </md-sidenav>

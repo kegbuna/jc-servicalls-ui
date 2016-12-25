@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/core/theming/all-theme';
-
 @include md-core();
 
 $primary: md-palette($md-deep-purple);
@@ -20,4 +19,12 @@ $theme: md-light-theme($primary, $accent);
   @include angular-material-theme($dark-theme);
 }
 
+/* Other stuff */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
 
