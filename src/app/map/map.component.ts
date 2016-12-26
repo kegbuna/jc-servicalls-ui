@@ -3,8 +3,7 @@ import {Component, AfterViewInit} from '@angular/core';
 import {CallsService} from "../calls.service";
 import {ServiceCallQueryResult} from "models";
 import {CallHeatPipe} from "../call-heat.pipe";
-import {ServiceCall} from "models";
-import {MarkerManager, SebmGoogleMapMarker} from "angular2-google-maps/core";
+import { LatLngLiteral } from "angular2-google-maps/core";
 
 @Component({
   selector: 'app-map',
@@ -17,7 +16,12 @@ export class MapComponent implements AfterViewInit {
   private leafletMapId: string = "HeatMap";
   private defaultLatitude: number = 43;
   private defaultLongitude: number = -71;
-  private defaultZoom: number = 15;
+  private minLatitude: number = 40.7;
+  private maxLatitude: number = 40.76;
+  private minLongitude: number = -74.1;
+  private maxLongitude: number = -74.03;
+  private defaultZoom: number = 14;
+
   private geolocation: Geolocation = navigator.geolocation;
   private calls: Array<any> = [];
 
@@ -25,9 +29,17 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.geolocation.getCurrentPosition((position: Position) => {
-      this.defaultLatitude = position.coords.latitude;
-      this.defaultLongitude = position.coords.longitude;
+      const lat: number = position.coords.latitude;
+      const long: number = position.coords.longitude;
+      if (this.minLatitude <= lat && lat <= this.maxLatitude) {
+        this.defaultLatitude = position.coords.latitude;
+      }
+
+      if (this.minLongitude<= long && long <= this.maxLongitude) {
+        this.defaultLongitude = position.coords.longitude;
+      }
     });
+
     //this.initLeaflet();
     this.initGoogleMaps();
   }
