@@ -1,10 +1,13 @@
 import * as leaflet from 'leaflet';
 import {Component, AfterViewInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {CallsService} from "../calls.service";
-import {ServiceCallQueryResult} from "models";
 import {CallHeatPipe} from "../call-heat.pipe";
-import { LatLngLiteral } from "angular2-google-maps/core";
+import { GoogleMapsAPIWrapper, LatLngBounds, LatLng } from "angular2-google-maps/core";
 
+import {ServiceCallQueryResult} from "models";
+import {PartialObserver} from "../../../node_modules/rxjs/Observer";
+import {Params} from "../../../node_modules/@angular/router/src/shared";
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -25,20 +28,13 @@ export class MapComponent implements AfterViewInit {
   private geolocation: Geolocation = navigator.geolocation;
   private calls: Array<any> = [];
 
-  constructor(private callsService: CallsService, private callHeatPipe: CallHeatPipe) { }
+  constructor(private callsService: CallsService,
+              private callHeatPipe: CallHeatPipe,
+              private googleMaps: GoogleMapsAPIWrapper,
+              private route: ActivatedRoute) { }
 
   ngAfterViewInit() {
-    this.geolocation.getCurrentPosition((position: Position) => {
-      const lat: number = position.coords.latitude;
-      const long: number = position.coords.longitude;
-      if (this.minLatitude <= lat && lat <= this.maxLatitude) {
-        this.defaultLatitude = position.coords.latitude;
-      }
-
-      if (this.minLongitude<= long && long <= this.maxLongitude) {
-        this.defaultLongitude = position.coords.longitude;
-      }
-    });
+    this.setDefaultPosition();
 
     //this.initLeaflet();
     this.initGoogleMaps();
@@ -67,6 +63,26 @@ export class MapComponent implements AfterViewInit {
     this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
       const heatpoints: Array<L.LatLng> = this.callHeatPipe.transform(value);
 
+    });
+  }
+
+  setDefaultPosition(): void {
+    this.route.params.subscribe((params: Params) => {
+      if (params['lat']) {
+
+      }
+    });
+
+    this.geolocation.getCurrentPosition((position: Position) => {
+      const lat: number = position.coords.latitude;
+      const long: number = position.coords.longitude;
+      if (this.minLatitude <= lat && lat <= this.maxLatitude) {
+        this.defaultLatitude = position.coords.latitude;
+      }
+
+      if (this.minLongitude <= long && long <= this.maxLongitude) {
+        this.defaultLongitude = position.coords.longitude;
+      }
     });
   }
 

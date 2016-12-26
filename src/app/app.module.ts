@@ -6,7 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {MaterialModule} from '@angular/material'
 import {RouterModule, Routes} from '@angular/router';
-import {AgmCoreModule, MarkerManager, GoogleMapsAPIWrapper} from 'angular2-google-maps/core';
+import {AgmCoreModule, GoogleMapsAPIWrapper} from 'angular2-google-maps/core';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
@@ -21,6 +21,7 @@ import { CallHeatPipe } from './call-heat.pipe';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'map', component: MapComponent },
+  { path: 'map/:lat/:long', component: MapComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -45,8 +46,7 @@ const routes: Routes = [
       apiKey: 'AIzaSyCsQVGUxpsyXXow4g1Lf4pKdl-UPDcp7QM'
     })
   ],
-  providers: [CallsService, CallHeatPipe, MarkerManager, GoogleMapsAPIWrapper],
+  providers: [CallsService, CallHeatPipe, GoogleMapsAPIWrapper],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}

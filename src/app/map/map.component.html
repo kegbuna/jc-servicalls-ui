@@ -3,13 +3,17 @@
 <sebm-google-map [latitude]="defaultLatitude" [longitude]="defaultLongitude" [zoom]="this.defaultZoom">
     <sebm-google-map-marker [latitude]="defaultLatitude" [longitude]="defaultLongitude"></sebm-google-map-marker>
     <sebm-google-map-marker *ngFor="let call of calls"
-                            [label]="call['Call Type']"
+                            [label]="call.District"
                             [latitude]="call.LATITUDE"
                             [longitude]="call.LONGITUDE">
+        <i class="fa fa-bar-chart"></i>
         <sebm-google-map-info-window>
             <div>
-                <h5>{{call['Call Code Description']}}</h5>
+                <span><b>Event Number:</b> {{call['Event Number']}}</span><br />
+                <span><strong>Address:</strong> {{call.Address}}</span><br />
+                <span><strong>Description:</strong> {{call['Call Code Description']}}</span><br />
             </div>
         </sebm-google-map-info-window>
     </sebm-google-map-marker>
+    <md-icon></md-icon>
 </sebm-google-map>
