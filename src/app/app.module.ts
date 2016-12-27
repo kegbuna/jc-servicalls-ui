@@ -22,8 +22,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'map', component: MapComponent },
   { path: 'map/:lat/:long', component: MapComponent },
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '',   redirectTo: '/map', pathMatch: 'full' },
+  { path: '**', redirectTo: '/map' }
 ];
 
 @NgModule({

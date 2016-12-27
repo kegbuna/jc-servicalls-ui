@@ -4,10 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import {CallsService} from "../calls.service";
 import {CallHeatPipe} from "../call-heat.pipe";
 import { GoogleMapsAPIWrapper, LatLngBounds, LatLng } from "angular2-google-maps/core";
-
 import {ServiceCallQueryResult} from "models";
-import {PartialObserver} from "../../../node_modules/rxjs/Observer";
 import {Params} from "../../../node_modules/@angular/router/src/shared";
+import {GoogleMap} from "../../../node_modules/angular2-google-maps/core/services/google-maps-types";
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -25,7 +24,7 @@ export class MapComponent implements AfterViewInit {
   private maxLongitude: number = -74.03;
   private defaultZoom: number = 14;
 
-  private geolocation: Geolocation = navigator.geolocation;
+  private geoLocation: Geolocation = navigator.geolocation;
   private calls: Array<any> = [];
 
   constructor(private callsService: CallsService,
@@ -43,6 +42,12 @@ export class MapComponent implements AfterViewInit {
   initGoogleMaps(): void {
     this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
       this.calls = value.result.records;
+      this.googleMaps.getNativeMap().then((map: GoogleMap) => {
+        console.log(map);
+      }).catch((reason: any) => {
+        console.log(reason);
+      });
+
     });
   }
 
@@ -51,7 +56,7 @@ export class MapComponent implements AfterViewInit {
    */
   initLeaflet(): void {
     this.leafletMap = leaflet.map(this.leafletMapId).setView([this.defaultLatitude, this.defaultLongitude], this.defaultZoom);
-    this.geolocation.getCurrentPosition((position: Position) => {
+    this.geoLocation.getCurrentPosition((position: Position) => {
       this.leafletMap.setView([position.coords.latitude, position.coords.longitude], 15);
     });
     leaflet.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
@@ -73,7 +78,7 @@ export class MapComponent implements AfterViewInit {
       }
     });
 
-    this.geolocation.getCurrentPosition((position: Position) => {
+    this.geoLocation.getCurrentPosition((position: Position) => {
       const lat: number = position.coords.latitude;
       const long: number = position.coords.longitude;
       if (this.minLatitude <= lat && lat <= this.maxLatitude) {
