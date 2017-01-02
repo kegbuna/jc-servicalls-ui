@@ -1,4 +1,3 @@
-import * as leaflet from 'leaflet';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ServiceCallQueryResult, ServiceCall} from "models";
 
@@ -7,12 +6,10 @@ import { ServiceCallQueryResult, ServiceCall} from "models";
 })
 export class CallHeatPipe implements PipeTransform {
 
-  private intensity: number = 0.01;
-  transform(value: ServiceCallQueryResult, args?: any): Array<L.LatLng> {
+  transform(value: ServiceCallQueryResult, args?: any): google.maps.LatLng[] {
     return value.result.records.map((call: ServiceCall) =>
-      leaflet.latLng(Number.parseFloat(call.LATITUDE),
-        Number.parseFloat(call.LONGITUDE),
-        this.intensity));
+      new google.maps.LatLng(Number.parseFloat(call.LATITUDE),
+        Number.parseFloat(call.LONGITUDE)));
   }
 
 }

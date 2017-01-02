@@ -1,12 +1,13 @@
 import * as leaflet from 'leaflet';
-import {Component, AfterViewInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, AfterViewInit, EventEmitter} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {CallsService} from "../calls.service";
 import {CallHeatPipe} from "../call-heat.pipe";
-import { GoogleMapsAPIWrapper, LatLngBounds, LatLng } from "angular2-google-maps/core";
+import {GoogleMapsAPIWrapper, LatLngBounds, LatLng} from "angular2-google-maps/core";
 import {ServiceCallQueryResult} from "models";
-import {Params} from "../../../node_modules/@angular/router/src/shared";
-import {GoogleMap} from "../../../node_modules/angular2-google-maps/core/services/google-maps-types";
+import {Params} from "@angular/router/src/shared";
+import iconMap from './call-type-icon-map';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -16,6 +17,8 @@ export class MapComponent implements AfterViewInit {
 
   private leafletMap: L.Map;
   private leafletMapId: string = "HeatMap";
+  private iconMap = iconMap;
+
   private defaultLatitude: number = 43;
   private defaultLongitude: number = -71;
   private minLatitude: number = 40.7;
@@ -29,23 +32,23 @@ export class MapComponent implements AfterViewInit {
 
   constructor(private callsService: CallsService,
               private callHeatPipe: CallHeatPipe,
-              private googleMaps: GoogleMapsAPIWrapper,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+  }
 
   ngAfterViewInit() {
     this.setDefaultPosition();
 
     //this.initLeaflet();
-    this.initGoogleMaps();
   }
 
-  initGoogleMaps(): void {
+  initGoogleMaps(map: google.maps.Map): void {
     this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
       this.calls = value.result.records;
-      this.googleMaps.getNativeMap().then((map: GoogleMap) => {
-        console.log(map);
-      }).catch((reason: any) => {
-        console.log(reason);
+      console.log(map.getBounds().toJSON());
+      const heatmap = new google.maps.visualization.HeatmapLayer({
+        data: this.callHeatPipe.transform(value),
+        dissipating: false,
+        map: map
       });
 
     });
@@ -66,12 +69,11 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.leafletMap);
 
     this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
-      const heatpoints: Array<L.LatLng> = this.callHeatPipe.transform(value);
-
     });
   }
 
   setDefaultPosition(): void {
+    //starting to think about routing params
     this.route.params.subscribe((params: Params) => {
       if (params['lat']) {
 

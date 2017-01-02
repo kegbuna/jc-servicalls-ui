@@ -17,6 +17,8 @@ import { HomeComponent } from './home/home.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CallHeatPipe } from './call-heat.pipe';
+import { GoogleMapExtensionDirective } from './map/google-map-extension.directive';
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -34,7 +36,8 @@ const routes: Routes = [
     HomeComponent,
     SideNavComponent,
     PageNotFoundComponent,
-    CallHeatPipe
+    CallHeatPipe,
+    GoogleMapExtensionDirective
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,8 @@ const routes: Routes = [
     MaterialModule.forRoot(),
     RouterModule.forRoot(routes),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCsQVGUxpsyXXow4g1Lf4pKdl-UPDcp7QM'
+      apiKey: 'AIzaSyCsQVGUxpsyXXow4g1Lf4pKdl-UPDcp7QM',
+      libraries: ['visualization']
     })
   ],
   providers: [CallsService, CallHeatPipe, GoogleMapsAPIWrapper],

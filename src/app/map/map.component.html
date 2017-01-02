@@ -1,19 +1,19 @@
 <div [attr.id]="leafletMapId" class="map-container">
 </div>
 <sebm-google-map [latitude]="defaultLatitude" [longitude]="defaultLongitude" [zoom]="this.defaultZoom">
-    <sebm-google-map-marker [latitude]="defaultLatitude" [longitude]="defaultLongitude"></sebm-google-map-marker>
     <sebm-google-map-marker *ngFor="let call of calls"
-                            [label]="call.District"
                             [latitude]="call.LATITUDE"
-                            [longitude]="call.LONGITUDE">
-        <i class="fa fa-bar-chart"></i>
+                            [longitude]="call.LONGITUDE"
+                            [iconUrl]="iconMap[call.CALLCODE.substring(0,3)]">
         <sebm-google-map-info-window>
             <div>
                 <span><b>Event Number:</b> {{call['Event Number']}}</span><br />
+                <span><b>Call Code:</b> {{call.CALLCODE}}</span><br />
+                <span><strong>Call Received:</strong> {{call['Time Received'] | date:'medium'}}</span><br />
                 <span><strong>Address:</strong> {{call.Address}}</span><br />
                 <span><strong>Description:</strong> {{call['Call Code Description']}}</span><br />
             </div>
         </sebm-google-map-info-window>
     </sebm-google-map-marker>
-    <md-icon></md-icon>
+    <google-map-extension (map)="initGoogleMaps($event)"></google-map-extension>
 </sebm-google-map>
