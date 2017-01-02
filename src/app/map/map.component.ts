@@ -3,11 +3,12 @@ import {Component, AfterViewInit, EventEmitter} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CallsService} from "../calls.service";
 import {CallHeatPipe} from "../call-heat.pipe";
-import {GoogleMapsAPIWrapper, LatLngBounds, LatLng} from "angular2-google-maps/core";
+import {MdDialog, MdSpinner, MdDialogConfig} from '@angular/material';
 import {ServiceCallQueryResult} from "models";
 import {Params} from "@angular/router/src/shared";
 import iconMap from './call-type-icon-map';
 import {ServiceCall} from "models";
+import {SpinnerComponent} from "../spinner/spinner.component";
 
 @Component({
   selector: 'app-map',
@@ -38,21 +39,23 @@ export class MapComponent implements AfterViewInit {
 
   constructor(private callsService: CallsService,
               private callHeatPipe: CallHeatPipe,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private dialog: MdDialog) {
   }
 
   ngAfterViewInit() {
-    this.setDefaultPosition();
+    this.setInitialPosition();
 
     //this.initLeaflet();
   }
 
   initGoogleMaps(map: google.maps.Map): void {
     this.googleMap = map;
+    let dialogRef = this.dialog.open(SpinnerComponent);
     this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
       this.serviceCallQueryResult = value;
       this.serviceCalls = value.result.records;
-
+      dialogRef.close('Finished');
       //this.addGoogleHeatMapLayer();
     });
   }
@@ -87,7 +90,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  setDefaultPosition(): void {
+  setInitialPosition(): void {
     //starting to think about routing params
     this.route.params.subscribe((params: Params) => {
       if (params['lat']) {

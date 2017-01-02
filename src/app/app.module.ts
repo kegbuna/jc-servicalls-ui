@@ -18,6 +18,7 @@ import {SideNavComponent} from './side-nav/side-nav.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {CallHeatPipe} from './call-heat.pipe';
 import {GoogleMapExtensionDirective} from './map/google-map-extension.directive';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 const routes: Routes = [
@@ -37,7 +38,8 @@ const routes: Routes = [
     SideNavComponent,
     PageNotFoundComponent,
     CallHeatPipe,
-    GoogleMapExtensionDirective
+    GoogleMapExtensionDirective,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +53,7 @@ const routes: Routes = [
     })
   ],
   providers: [CallsService, CallHeatPipe, GoogleMapsAPIWrapper],
+  entryComponents: [SpinnerComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

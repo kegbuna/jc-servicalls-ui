@@ -4,6 +4,7 @@ const iconMap = {
   A17: 'assets/images/map/criminal.svg',
   A32: 'assets/images/map/criminal.svg',
   B14: 'assets/images/map/quarrel.svg',
+  B18: 'assets/images/map/neighborhood.svg',
   B21: 'assets/images/map/cash-register.svg',
   C16: 'assets/images/map/shoe.svg',
   C22: 'assets/images/map/alarm.svg',
