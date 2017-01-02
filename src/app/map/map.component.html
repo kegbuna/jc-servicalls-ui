@@ -1,7 +1,7 @@
 <div [attr.id]="leafletMapId" class="map-container">
 </div>
 <sebm-google-map [latitude]="defaultLatitude" [longitude]="defaultLongitude" [zoom]="this.defaultZoom">
-    <sebm-google-map-marker *ngFor="let call of calls"
+    <sebm-google-map-marker *ngFor="let call of serviceCalls"
                             [latitude]="call.LATITUDE"
                             [longitude]="call.LONGITUDE"
                             [iconUrl]="iconMap[call.CALLCODE.substring(0,3)]">

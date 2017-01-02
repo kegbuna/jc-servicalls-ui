@@ -7,6 +7,7 @@ import {GoogleMapsAPIWrapper, LatLngBounds, LatLng} from "angular2-google-maps/c
 import {ServiceCallQueryResult} from "models";
 import {Params} from "@angular/router/src/shared";
 import iconMap from './call-type-icon-map';
+import {ServiceCall} from "models";
 
 @Component({
   selector: 'app-map',
@@ -17,6 +18,10 @@ export class MapComponent implements AfterViewInit {
 
   private leafletMap: L.Map;
   private leafletMapId: string = "HeatMap";
+
+  private googleMap: google.maps.Map;
+  private googleHeatMapLayer: google.maps.visualization.HeatmapLayer;
+
   private iconMap = iconMap;
 
   private defaultLatitude: number = 43;
@@ -28,7 +33,8 @@ export class MapComponent implements AfterViewInit {
   private defaultZoom: number = 14;
 
   private geoLocation: Geolocation = navigator.geolocation;
-  private calls: Array<any> = [];
+  private serviceCallQueryResult: ServiceCallQueryResult;
+  private serviceCalls: ServiceCall[];
 
   constructor(private callsService: CallsService,
               private callHeatPipe: CallHeatPipe,
@@ -42,16 +48,25 @@ export class MapComponent implements AfterViewInit {
   }
 
   initGoogleMaps(map: google.maps.Map): void {
+    this.googleMap = map;
     this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
-      this.calls = value.result.records;
-      console.log(map.getBounds().toJSON());
-      const heatmap = new google.maps.visualization.HeatmapLayer({
-        data: this.callHeatPipe.transform(value),
-        dissipating: false,
-        map: map
-      });
+      this.serviceCallQueryResult = value;
+      this.serviceCalls = value.result.records;
 
+      //this.addGoogleHeatMapLayer();
     });
+  }
+
+  addGoogleHeatMapLayer(): void {
+    this.googleHeatMapLayer = new google.maps.visualization.HeatmapLayer({
+      data: this.callHeatPipe.transform(this.serviceCallQueryResult),
+      dissipating: false,
+      map: this.googleMap
+    });
+  }
+
+  removeGoogleHeatMapLayer(): void {
+    this.googleHeatMapLayer.unbindAll();
   }
 
   /**
