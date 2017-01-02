@@ -12,20 +12,20 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 
 import {CallsService} from './calls.service';
-import { MapComponent } from './map/map.component';
-import { HomeComponent } from './home/home.component';
-import { SideNavComponent } from './side-nav/side-nav.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { CallHeatPipe } from './call-heat.pipe';
-import { GoogleMapExtensionDirective } from './map/google-map-extension.directive';
+import {MapComponent} from './map/map.component';
+import {HomeComponent} from './home/home.component';
+import {SideNavComponent} from './side-nav/side-nav.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {CallHeatPipe} from './call-heat.pipe';
+import {GoogleMapExtensionDirective} from './map/google-map-extension.directive';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'map', component: MapComponent },
-  { path: 'map/:lat/:long', component: MapComponent },
-  { path: '',   redirectTo: '/map', pathMatch: 'full' },
-  { path: '**', redirectTo: '/map' }
+  {path: 'home', component: HomeComponent},
+  {path: 'map', component: MapComponent},
+  {path: 'map/:lat/:long', component: MapComponent},
+  {path: '', redirectTo: '/map', pathMatch: 'full'},
+  {path: '**', redirectTo: '/map'}
 ];
 
 @NgModule({
@@ -53,4 +53,5 @@ const routes: Routes = [
   providers: [CallsService, CallHeatPipe, GoogleMapsAPIWrapper],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

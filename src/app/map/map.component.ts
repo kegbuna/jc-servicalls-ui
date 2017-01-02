@@ -24,8 +24,8 @@ export class MapComponent implements AfterViewInit {
 
   private iconMap = iconMap;
 
-  private defaultLatitude: number = 43;
-  private defaultLongitude: number = -71;
+  private defaultLatitude: number = 40.72;
+  private defaultLongitude: number = -74.05;
   private minLatitude: number = 40.7;
   private maxLatitude: number = 40.76;
   private minLongitude: number = -74.1;
