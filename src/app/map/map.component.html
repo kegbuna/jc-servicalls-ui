@@ -2,16 +2,16 @@
 </div>
 <sebm-google-map [latitude]="defaultLatitude" [longitude]="defaultLongitude" [zoom]="this.defaultZoom">
     <sebm-google-map-marker *ngFor="let call of serviceCalls"
-                            [latitude]="call.LATITUDE"
-                            [longitude]="call.LONGITUDE"
-                            [iconUrl]="iconMap[call.CALLCODE.substring(0,3)]">
+                            [latitude]="call.latitude"
+                            [longitude]="call.longitude"
+                            [iconUrl]="iconMap[call.callcode.substring(0,3)]">
         <sebm-google-map-info-window>
             <div>
-                <span><b>Event Number:</b> {{call['Event Number']}}</span><br />
-                <span><b>Call Code:</b> {{call.CALLCODE}}</span><br />
-                <span><strong>Call Received:</strong> {{call['Time Received'] | date:'medium'}}</span><br />
-                <span><strong>Address:</strong> {{call.Address}}</span><br />
-                <span><strong>Description:</strong> {{call['Call Code Description']}}</span><br />
+                <span><b>Event Number:</b> {{call.event_number}}</span><br />
+                <span><b>Call Code:</b> {{call.callcode}}</span><br />
+                <span><strong>Call Received:</strong> {{call.time_received | date:'medium'}}</span><br />
+                <span><strong>Address:</strong> {{call.address}}</span><br />
+                <span><strong>Description:</strong> {{call.call_code_description}}</span><br />
             </div>
         </sebm-google-map-info-window>
     </sebm-google-map-marker>

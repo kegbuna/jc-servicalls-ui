@@ -4,7 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {CallsService} from "../calls.service";
 import {CallHeatPipe} from "../call-heat.pipe";
 import {MdDialog, MdSpinner, MdDialogConfig} from '@angular/material';
-import {ServiceCallQueryResult} from "models";
 import {Params} from "@angular/router/src/shared";
 import iconMap from './call-type-icon-map';
 import {ServiceCall} from "models";
@@ -34,7 +33,6 @@ export class MapComponent implements AfterViewInit {
   private defaultZoom: number = 14;
 
   private geoLocation: Geolocation = navigator.geolocation;
-  private serviceCallQueryResult: ServiceCallQueryResult;
   private serviceCalls: ServiceCall[];
 
   constructor(private callsService: CallsService,
@@ -52,9 +50,8 @@ export class MapComponent implements AfterViewInit {
   initGoogleMaps(map: google.maps.Map): void {
     this.googleMap = map;
     let dialogRef = this.dialog.open(SpinnerComponent);
-    this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
-      this.serviceCallQueryResult = value;
-      this.serviceCalls = value.result.records;
+    this.callsService.getCalls().subscribe((value: ServiceCall[]) => {
+      this.serviceCalls = value;
       dialogRef.close('Finished');
       //this.addGoogleHeatMapLayer();
     });
@@ -62,7 +59,7 @@ export class MapComponent implements AfterViewInit {
 
   addGoogleHeatMapLayer(): void {
     this.googleHeatMapLayer = new google.maps.visualization.HeatmapLayer({
-      data: this.callHeatPipe.transform(this.serviceCallQueryResult),
+      data: this.callHeatPipe.transform(this.serviceCalls),
       dissipating: false,
       map: this.googleMap
     });
@@ -86,7 +83,7 @@ export class MapComponent implements AfterViewInit {
       accessToken: 'pk.eyJ1Ijoia2VnYnVuYSIsImEiOiJjaXg0ZWdiYTkwMTV3Mm5xeW85eWFkb2NtIn0.s30hAbAaeAiKPN5n-EpX1A'
     }).addTo(this.leafletMap);
 
-    this.callsService.getCalls().subscribe((value: ServiceCallQueryResult) => {
+    this.callsService.getCalls().subscribe((value: ServiceCall[]) => {
     });
   }
 

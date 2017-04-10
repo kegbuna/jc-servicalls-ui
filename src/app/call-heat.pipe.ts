@@ -1,15 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ServiceCallQueryResult, ServiceCall} from "models";
+import {ServiceCall} from "models";
 
 @Pipe({
   name: 'callHeat'
 })
 export class CallHeatPipe implements PipeTransform {
 
-  transform(value: ServiceCallQueryResult, args?: any): google.maps.LatLng[] {
-    return value.result.records.map((call: ServiceCall) =>
-      new google.maps.LatLng(Number.parseFloat(call.LATITUDE),
-        Number.parseFloat(call.LONGITUDE)));
+  transform(value: ServiceCall[], args?: any): google.maps.LatLng[] {
+    console.log(`Starting CallHeat Pipe: ${performance.now()}`);
+    const values: google.maps.LatLng[] = value.map((call: ServiceCall) =>
+      new google.maps.LatLng(call.latitude, call.longitude));
+    console.log(`Ending CallHeat Pipe: ${performance.now()}`);
+    return values;
   }
 
 }
