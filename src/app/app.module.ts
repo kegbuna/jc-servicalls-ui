@@ -50,7 +50,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCsQVGUxpsyXXow4g1Lf4pKdl-UPDcp7QM',
+      apiKey: 'AIzaSyAEWvJMN6KPGzxI74KAtXaK3xN31kHKwNY',
       libraries: ['visualization']
     })
   ],
